@@ -49,7 +49,8 @@ const styles = StyleSheet.create({
 	},
 	warningMessage: {
 		color: WARNING_COLOR,
-		margin: 'auto'
+		margin: 'auto',
+		fontWeight: 'bold',
 	},
 	forgotPassword: {
 		color: PRIMARY_COLOR,
