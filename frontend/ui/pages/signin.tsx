@@ -1,9 +1,10 @@
-import React, { use } from "react";
+import React from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
 import Form from "../components/form/form";
-import { PRIMARY_COLOR, WARNING_COLOR } from "../../styles/colors";
+import { PRIMARY_COLOR } from "../../styles/colors";
 import { useSizeScheme } from "../../hooks/use-size-scheme";
 import { FormFieldType } from "../components/form/formField";
+import { useNavigation } from "@react-navigation/native";
 
 /**
  * Returns true if the input string contains only valid characters (alphanumeric), false otherwise.
@@ -20,6 +21,7 @@ const checkInvalidCharacters = (input: string): boolean => {
  * @author Zoe Bingham
  */
 export default function SignIn() {
+	const navigation = useNavigation();
 	const sizes = useSizeScheme();
 	const signInFields: Array<FormFieldType> = [
 		{ 
@@ -34,17 +36,24 @@ export default function SignIn() {
 		}
 	]
 
-	const verifyCredentials = (): boolean => {
+	const authenticateCredentials = (): boolean => {
 		// TODO: Add real verification logic here
 		return true;
 	}
 
 	const onSubmit = (): boolean => {
-		return verifyCredentials();;
+		const authenticated = authenticateCredentials();
+		if (authenticated) {
+			console.log("Credentials verified, signing in...");
+			navigation.navigate("SuccessfulLogin" as never);
+		}
+		return authenticated;
 	}
 
 	return (
-		<View>
+		<View
+			style={styles.container}
+		>
 			{/** Logo Section */}
 			<Image 
 				source={require("../../assets/konami-logo.png")} 
@@ -79,5 +88,11 @@ const styles = StyleSheet.create({
 	forgotPassword: {
 		color: PRIMARY_COLOR,
 		margin: 'auto'
-	}
+	},
+	container: {
+		flex: 1,
+		backgroundColor: '#fff',
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
 })
