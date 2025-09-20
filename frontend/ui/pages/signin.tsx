@@ -3,6 +3,17 @@ import { View, Text, Image, StyleSheet } from "react-native";
 import Form from "../components/form/form";
 import { PRIMARY_COLOR, WARNING_COLOR } from "../../styles/colors";
 import { useSizeScheme } from "../../hooks/use-size-scheme";
+import { FormFieldType } from "../components/form/formField";
+
+/**
+ * Returns true if the input string contains only valid characters (alphanumeric), false otherwise.
+ * @param input - the input string to check
+ * @returns 
+ */
+const checkInvalidCharacters = (input: string): boolean => {
+	const regex = /^[a-zA-Z0-9]*$/;
+	return regex.test(input);
+}
 
 /**
  * The SignIn page component. Contains a form for users to sign in with their credentials.
@@ -10,6 +21,27 @@ import { useSizeScheme } from "../../hooks/use-size-scheme";
  */
 export default function SignIn() {
 	const sizes = useSizeScheme();
+	const signInFields: Array<FormFieldType> = [
+		{ 
+			type: "text", 
+			placeholder: "Username",
+			validator: checkInvalidCharacters
+		},
+		{ 
+			type: "password", 
+			placeholder: "Password",
+			validator: checkInvalidCharacters
+		}
+	]
+
+	const verifyCredentials = (): boolean => {
+		// TODO: Add real verification logic here
+		return true;
+	}
+
+	const onSubmit = (): boolean => {
+		return verifyCredentials();;
+	}
 
 	return (
 		<View>
@@ -23,15 +55,12 @@ export default function SignIn() {
 				}}
 			/>
 
-			{/** Warning Message */}
-			<Text
-				style={styles.warningMessage}
-			>
-				Invalid credentials, please try again.
-			</Text>
-
 			{/** Form Section */}
-			<Form></Form>
+			<Form 
+				fields={signInFields} 
+				onSubmit={onSubmit}
+				warningMessage="Invalid credentials, please try again."
+			></Form>
 
 			{/** Forgot Password Section */}
 			<Text
@@ -46,11 +75,6 @@ export default function SignIn() {
 const styles = StyleSheet.create({
 	logo: {
 		resizeMode: 'contain',
-	},
-	warningMessage: {
-		color: WARNING_COLOR,
-		margin: 'auto',
-		fontWeight: 'bold',
 	},
 	forgotPassword: {
 		color: PRIMARY_COLOR,
