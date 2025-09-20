@@ -11,3 +11,6 @@ npx create-expo-app@latest --template blank-typescript
 - Warning Message Section
 - User and Password Form Section
 - Forgot Password Section
+4. Before diving into the Form of the sign in page, I started by setting the theme and the device size specifications. 
+- colors: I got the colors by using the color selector tool on figma to make sure I was getting the exact colors correct, before adding them as constants into a colors.ts file.
+- device specifications: For right now, I just put in some values that I might adjust later based on how things look.
