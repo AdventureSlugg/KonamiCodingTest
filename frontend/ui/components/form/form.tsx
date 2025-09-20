@@ -48,7 +48,11 @@ export default function Form(props: FormProps) {
 			}
 
 			{/** Submission Button */}
-			<Button name="SIGN IN" onSubmit={() => {checkSubmit()}}></Button>
+			<Button 
+				name="SIGN IN" 
+				onSubmit={() => {checkSubmit()}}
+				disabled={!isValid}
+			></Button>
 		</View>
 	)
 }
