@@ -13,6 +13,11 @@ export default function Form() {
 		{ type: "password", placeholder: "Password" }
 	]
 
+	const submitForm = () => {
+		// TODO submit form logic
+		console.log('Submitted');
+	}
+
 	return (
 		<View>
 			{/** Username and Password Forms */}
@@ -24,7 +29,7 @@ export default function Form() {
 			}
 
 			{/** Submission Button */}
-			<Button></Button>
+			<Button name="SIGN IN" onSubmit={() => {submitForm()}}></Button>
 		</View>
 	)
 }
