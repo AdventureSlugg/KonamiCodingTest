@@ -51,32 +51,36 @@ export default function SignIn() {
 	}
 
 	return (
-		<View
-			style={styles.container}
+		<View 
+			style={{...styles.container, flex:1}}
 		>
-			{/** Logo Section */}
-			<Image 
-				source={require("../../assets/konami-logo.png")} 
-				style={{
-					...styles.logo,
-					width: sizes.iconSize * 20,
-					height: sizes.iconSize * 20,
-				}}
-			/>
-
-			{/** Form Section */}
-			<Form 
-				fields={signInFields} 
-				onSubmit={onSubmit}
-				warningMessage="Invalid credentials, please try again."
-			></Form>
-
-			{/** Forgot Password Section */}
-			<Text
-				style={styles.forgotPassword}
+			<View
+				style={styles.container}
 			>
-				forgot password?
-			</Text>
+				{/** Logo Section */}
+				<Image 
+					source={require("../../assets/konami-logo.png")} 
+					style={{
+						...styles.logo,
+						width: sizes.iconSize * 20,
+						height: sizes.iconSize * 20,
+					}}
+				/>
+
+				{/** Form Section */}
+				<Form 
+					fields={signInFields} 
+					onSubmit={onSubmit}
+					warningMessage="Invalid credentials, please try again."
+				></Form>
+
+				{/** Forgot Password Section */}
+				<Text
+					style={styles.forgotPassword}
+				>
+					forgot password?
+				</Text>
+			</View>
 		</View>
 	);
 }
@@ -90,7 +94,6 @@ const styles = StyleSheet.create({
 		margin: 'auto'
 	},
 	container: {
-		flex: 1,
 		backgroundColor: '#fff',
 		alignItems: 'center',
 		justifyContent: 'center',
