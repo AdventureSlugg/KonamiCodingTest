@@ -37,11 +37,11 @@ export default function TodoList() {
 				<Text
 					style={{
 						...styles.title,
-						fontSize: sizes.titleFontSize,
+						fontSize: sizes.titleFontSize * 1.5,
 						paddingBottom: sizes.padding * 2
 					}}
 				>
-					Todo List Page
+					To Do List
 				</Text>
 
 				{/** List Section */}
