@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { View, Text } from "react-native";
+import { View, Text, ViewStyle, StyleProp } from "react-native";
 import ListItem from "./listItem";
+import { PLACEHOLDER_COLOR } from "../../../styles/colors";
 
 
 type Nameable = {
@@ -8,7 +9,8 @@ type Nameable = {
 }
 
 type ListProps<T extends Nameable> = {
-	items: Array<T>
+	items: Array<T>,
+	style?: StyleProp<ViewStyle>
 }
 
 /**
@@ -36,10 +38,17 @@ export default function List<T extends Nameable>(props: ListProps<T>) {
 	}
 
 	return (
-		<View>
+		<View style={props.style}>
 			{
 				items.map( (item, index) => (
-					<ListItem key={index} name={item.name}></ListItem>
+					<ListItem 
+						style={{
+							borderColor: PLACEHOLDER_COLOR,
+							borderBottomWidth: index === items.length - 1 ? 1 : 0,
+						}}
+						key={index} 
+						name={item.name}
+					></ListItem>
 				))
 			}
 		</View>

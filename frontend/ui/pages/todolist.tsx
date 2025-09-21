@@ -38,20 +38,21 @@ export default function TodoList() {
 					style={{
 						...styles.title,
 						fontSize: sizes.titleFontSize,
-
+						paddingBottom: sizes.padding * 2
 					}}
 				>
 					Todo List Page
 				</Text>
 
 				{/** List Section */}
-				<List items={tasks}></List>
+				<List items={tasks} style={{width:'85%'}}></List>
 
 				{/** Add item section */}
 				<View 
 					style={{
 						...styles.horizontal,
-						width: '90%'
+						width: '90%',
+						paddingTop: 2 * sizes.padding
 					}}
 				>
 					<FormField 
@@ -67,7 +68,7 @@ export default function TodoList() {
 					</FormField>
 					<Button 
 						style={{
-							width: '15%'
+							width: '15%',
 						}}
 						name={"Add"} 
 						onSubmit={()=> {}} >

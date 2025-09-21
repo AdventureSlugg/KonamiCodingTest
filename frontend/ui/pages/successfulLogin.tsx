@@ -36,7 +36,6 @@ const styles = StyleSheet.create({
 		width: 500,
 		height: 150,
 		textAlign: 'center',
-		textAlignVertical: 'center',
 		paddingTop: 60
 	}
 })
