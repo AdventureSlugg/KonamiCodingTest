@@ -3,7 +3,11 @@ import { View, Text } from "react-native";
 import ListItem from "./listItem";
 
 
-type ListProps<T> = {
+type Nameable = {
+	name: string
+}
+
+type ListProps<T extends Nameable> = {
 	items: Array<T>
 }
 
@@ -11,7 +15,7 @@ type ListProps<T> = {
  * The list component displays a list of generic items.
  * @author Zoe Bingham
  */
-export default function List<T>(props: ListProps<T>) {
+export default function List<T extends Nameable>(props: ListProps<T>) {
 	const [items, setItems] = useState<Array<T>>(props.items);
 
 	/**
@@ -35,7 +39,7 @@ export default function List<T>(props: ListProps<T>) {
 		<View>
 			{
 				items.map( (item, index) => (
-					<ListItem></ListItem>
+					<ListItem key={index} name={item.name}></ListItem>
 				))
 			}
 		</View>

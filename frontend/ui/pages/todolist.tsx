@@ -18,12 +18,16 @@ export default function TodoList() {
 	const sizes = useSizeScheme();
 	const [tasks, setTasks] = useState<Array<Task>>([
 		{
-			name: 't1',
+			name: 'Add Validation',
+			id: 0
+		},
+		{
+			name: 'Submit Form',
 			id: 1
 		},
 		{
-			name: 't1',
-			id: 1
+			name: 'Check Endpoints',
+			id: 2
 		}
 	]);
 	return (
