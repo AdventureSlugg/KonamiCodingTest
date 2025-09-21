@@ -1,7 +1,17 @@
-import React from "react";
+import { useNavigation } from "@react-navigation/native";
+import React, { useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
 
 export default function SuccessfulLogin() {
+	const navigation = useNavigation();
+
+	// After 2 seconds, go to the TodoList
+	useEffect( () => {
+		setTimeout(() => {
+			navigation.navigate("TodoList" as never);
+		}, 2000)
+	})
+
 	return (
 		<View
 			style={styles.container}

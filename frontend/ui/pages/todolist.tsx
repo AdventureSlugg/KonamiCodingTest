@@ -27,7 +27,7 @@ export default function TodoList() {
 		}
 	]);
 	return (
-		<View style={{flex: 1, marginTop: 40, width: '90%', marginLeft: 'auto', marginRight: 'auto'}}>
+		<View style={{flex: 1}}>
 			<View style={styles.container}>
 				{/** Title Section  */}
 				<Text
@@ -54,7 +54,7 @@ export default function TodoList() {
 						style={{
 							marginLeft: sizes.padding,
 							marginRight: sizes.padding,
-							width: '80%'
+							width: '75%'
 						}}
 						type={"text"} 
 						placeholder={"Add New Task"} 
@@ -63,10 +63,11 @@ export default function TodoList() {
 					</FormField>
 					<Button 
 						style={{
-							width: '20%'
+							width: '15%'
 						}}
 						name={"Add"} 
-						onSubmit={()=> {}} ></Button>
+						onSubmit={()=> {}} >
+					</Button>
 				</View>
 			</View>
 			
@@ -78,10 +79,11 @@ const styles = StyleSheet.create({
 	container: {
 		backgroundColor: '#fff',
 		alignItems: 'center',
-		justifyContent: 'center',
-		width: '90%'
+		width: '100%',
+		height: '100%',
 	},
 	title: {
+		marginTop: 50,
 		fontWeight: 'bold'
 	},
 	horizontal: {

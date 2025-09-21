@@ -10,13 +10,14 @@ const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    // <NavigationContainer>
-    //   <Stack.Navigator initialRouteName="SignIn">
-    //     <Stack.Screen name="SignIn" component={SignIn} options={{ headerShown: false }} />
-    //     <Stack.Screen name="SuccessfulLogin" component={SuccessfulLogin} options={{ headerShown: false }}/>
-    //   </Stack.Navigator>
-    //   <StatusBar style="auto" />
-    // </NavigationContainer>
-    <TodoList></TodoList>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="SignIn">
+        <Stack.Screen name="SignIn" component={SignIn} options={{ headerShown: false }} />
+        <Stack.Screen name="SuccessfulLogin" component={SuccessfulLogin} options={{ headerShown: false }}/>
+        <Stack.Screen name="TodoList" component={TodoList} options={{ headerShown: false }}/>
+      </Stack.Navigator>
+      <StatusBar style="auto" />
+    </NavigationContainer>
+    // <TodoList></TodoList>
   );
 }
