@@ -5,16 +5,7 @@ import { PRIMARY_COLOR } from "../../styles/colors";
 import { useSizeScheme } from "../../hooks/use-size-scheme";
 import { FormFieldType } from "../components/form/formField";
 import { useNavigation } from "@react-navigation/native";
-
-/**
- * Returns true if the input string contains only valid characters (alphanumeric), false otherwise.
- * @param input - the input string to check
- * @returns 
- */
-const checkInvalidCharacters = (input: string): boolean => {
-	const regex = /^[a-zA-Z0-9]*$/;
-	return regex.test(input);
-}
+import { isAlphaNumeric } from "../../utilities/validators";
 
 /**
  * The SignIn page component. Contains a form for users to sign in with their credentials.
@@ -27,12 +18,12 @@ export default function SignIn() {
 		{ 
 			type: "text", 
 			placeholder: "Username",
-			validator: checkInvalidCharacters
+			validator: isAlphaNumeric
 		},
 		{ 
 			type: "password", 
 			placeholder: "Password",
-			validator: checkInvalidCharacters
+			validator: isAlphaNumeric
 		}
 	]
 
