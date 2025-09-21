@@ -1,5 +1,5 @@
 import React from "react";
-import { View, TextInput, StyleSheet } from "react-native";
+import { View, TextInput, StyleSheet, ViewStyle, StyleProp } from "react-native";
 import { PLACEHOLDER_COLOR } from "../../../styles/colors";
 import { useSizeScheme } from "../../../hooks/use-size-scheme";
 
@@ -14,6 +14,7 @@ export type FormFieldProps = {
 	placeholder: string;
 	validator: (input: string) => boolean;
 	onInvalidInput: (isValid: boolean) => void;
+	style?: StyleProp<ViewStyle>;
 }
 
 /**
@@ -43,7 +44,7 @@ export default function FormField(props: FormFieldProps) {
 	}
 
 	return (
-		<View>
+		<View style={props.style}>
 			<TextInput
 				placeholder={props.placeholder}
 				secureTextEntry={props.type === "password"}
