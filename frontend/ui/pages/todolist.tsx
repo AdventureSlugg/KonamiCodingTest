@@ -4,8 +4,9 @@ import List from "../components/list/list";
 import { useSizeScheme } from "../../hooks/use-size-scheme";
 import FormField from "../components/form/formField";
 import Button from "../components/button/button";
+import { useFetchTasks } from "../../hooks/tasks/use-fetch-task";
 
-type Task = {
+export type Task = {
 	name: string,
 	id: number
 }
@@ -16,20 +17,9 @@ type Task = {
  */
 export default function TodoList() {
 	const sizes = useSizeScheme();
-	const [tasks, setTasks] = useState<Array<Task>>([
-		{
-			name: 'Add Validation',
-			id: 0
-		},
-		{
-			name: 'Submit Form',
-			id: 1
-		},
-		{
-			name: 'Check Endpoints',
-			id: 2
-		}
-	]);
+	const { tasks, createTask, deleteTask, updateTask } = useFetchTasks();
+	const [newTaskName, setNewTaskName] = useState<string>("");
+	
 	return (
 		<View style={{flex: 1}}>
 			<View style={styles.container}>
@@ -45,7 +35,12 @@ export default function TodoList() {
 				</Text>
 
 				{/** List Section */}
-				<List items={tasks} style={{width:'85%'}}></List>
+				<List 
+					items={tasks} 
+					style={{width:'85%'}} 
+					deleteItem={deleteTask}
+					editItem={task => updateTask(task.id, task.name)}
+				></List>
 
 				{/** Add item section */}
 				<View 
@@ -64,14 +59,23 @@ export default function TodoList() {
 						type={"text"} 
 						placeholder={"Add New Task"} 
 						validator={() => true} 
-						onInvalidInput={() => true}>	
+						onValueChange={(input) => setNewTaskName(input)}
+						onInvalidInput={() => true}>
 					</FormField>
 					<Button 
 						style={{
 							width: '15%',
 						}}
 						name={"Add"} 
-						onSubmit={()=> {}} >
+						onSubmit={()=> { 
+							if (newTaskName.trim()) { 
+								createTask({ 
+									id: Date.now(), 
+									name: newTaskName.trim() 
+								}); 
+								setNewTaskName("");
+							}
+						}} >
 					</Button>
 				</View>
 			</View>

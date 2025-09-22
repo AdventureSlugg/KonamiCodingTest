@@ -12,9 +12,11 @@ export type FormFieldType = {
 export type FormFieldProps = {
 	type: "text" | "password";
 	placeholder: string;
-	validator: (input: string) => boolean;
-	onInvalidInput: (isValid: boolean) => void;
+	validator?: (input: string) => boolean;
+	onInvalidInput?: (isValid: boolean) => void;
+	onValueChange?: (value: string) => void;
 	style?: StyleProp<ViewStyle>;
+	onFinish?: () => void;
 }
 
 /**
@@ -32,16 +34,19 @@ export default function FormField(props: FormFieldProps) {
 	 */
 	const checkValid = (input: string): boolean => {
 		// Update the value
-		setValue(input)
+		setValue(input);
+
+		// Notify parent of the value change (if provided)
+		if (props.onValueChange) props.onValueChange(input);
 
 		// Check if the input is valid
-		const isValid = props.validator(input)
-		console.log(props.validator(input));
+		const isValid = props.validator ? props.validator(input) : true;
 
 		// Update the parent component about the validity
-		props.onInvalidInput(isValid)
-		return isValid
-	}
+		if (props.onInvalidInput) props.onInvalidInput(isValid);
+
+		return isValid;
+	};
 
 	return (
 		<View style={props.style}>
@@ -58,6 +63,7 @@ export default function FormField(props: FormFieldProps) {
 					color: value ? 'black' : PLACEHOLDER_COLOR,
 				}}
 				onChangeText={checkValid}
+				onBlur={props.onFinish}
 			/>
 		</View>
 	)
