@@ -2,6 +2,10 @@
 
 This repository showcases my approach to implementing the two provided mock-ups. Below, I’ve documented the process I followed and the reasoning behind my choices.
 
+## Preview
+Here is a quick preview of what the running app looks like!
+![Konami Coding Sample Preview](https://github.com/AdventureSlugg/KonamiCodingTest/blob/main/KonamiCodeSamplePreview.gif)
+
 ## Running the Project
 Before diving into my development process, here are a few quick instructions on how to run the code:
 1. From the `frontend` directory, run the following commands for web:
@@ -12,7 +16,6 @@ npm run web
 **Note**: You will need node
 
 ## Initial Setup
-
 1. Bootstrapped a new Expo app using the blank-typescript template:
    ```bash
    npx create-expo-app@latest --template blank-typescript
