@@ -6,6 +6,7 @@ import { useSizeScheme } from "../../hooks/use-size-scheme";
 import { FormFieldType } from "../components/form/formField";
 import { useNavigation } from "@react-navigation/native";
 import { isAlphaNumeric } from "../../utilities/validators";
+import { useAuth, UserAuth } from "../../hooks/tasks/use-auth";
 
 /**
  * The SignIn page component. Contains a form for users to sign in with their credentials.
@@ -14,26 +15,31 @@ import { isAlphaNumeric } from "../../utilities/validators";
 export default function SignIn() {
 	const navigation = useNavigation();
 	const sizes = useSizeScheme();
+	const authentication = useAuth();
+
 	const signInFields: Array<FormFieldType> = [
 		{ 
+			name: 'username',
 			type: "text", 
 			placeholder: "Username",
 			validator: isAlphaNumeric
 		},
 		{ 
+			name: 'password',
 			type: "password", 
 			placeholder: "Password",
 			validator: isAlphaNumeric
 		}
 	]
 
-	const authenticateCredentials = (): boolean => {
-		// TODO: Add real verification logic here
-		return true;
-	}
-
-	const onSubmit = (): boolean => {
-		const authenticated = authenticateCredentials();
+	const onSubmit = (values: Record<string, any> | undefined): boolean => {
+		if (!values) return false;
+		const user: UserAuth = { 
+			username: values.username ?? '', 
+			password: values.password ?? ''
+		};
+		
+		const authenticated = authentication.authenticateUser(user);
 		if (authenticated) {
 			console.log("Credentials verified, signing in...");
 			navigation.navigate("SuccessfulLogin" as never);
