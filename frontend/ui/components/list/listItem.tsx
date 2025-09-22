@@ -27,15 +27,11 @@ export default function ListItem(props: ListItemProps) {
 		<View style={props.style}>
 			{
 				props.name &&
-				<TouchableOpacity
+				<View
 					style={{
 						...styles.listItem,
 						height: size.fontSize * 4,
-						paddingTop: !editing ? 1.5 * size.padding : size.padding * .5
-					}}
-					onPress={() => {
-						setEditing(!editing)
-						
+						margin: 'auto'
 					}}
 				>
 					{
@@ -56,6 +52,9 @@ export default function ListItem(props: ListItemProps) {
 									})
 								}}
 								onValueChange={setNewName}
+								style={{
+									paddingTop: size.padding * 1/4
+								}}
 							></FormField>
 
 					}
@@ -71,7 +70,19 @@ export default function ListItem(props: ListItemProps) {
 					>
 						<Text style={styles.delete}>DELETE</Text>
 					</TouchableOpacity>
-				</TouchableOpacity>
+
+					<TouchableOpacity
+						style={{
+							width: '100%',
+							height: '100%',
+							position: 'absolute',
+							zIndex: -1
+						}}
+						onPress={() => {
+							setEditing(!editing)
+						}}>
+					</TouchableOpacity>
+				</View>
 			}
 		</View>
 	)
@@ -91,10 +102,14 @@ const styles = StyleSheet.create({
 	},
 	hugRight: {
 		marginRight: '3%',
-		marginLeft: 'auto'
+		marginLeft: 'auto',
+		marginTop: 'auto',
+		marginBottom: 'auto'
 	},
 	hugLeft: {
 		marginLeft: '3%',
-		marginRight: 'auto'
+		marginRight: 'auto',
+		marginTop: 'auto',
+		marginBottom: 'auto'
 	}
 })
