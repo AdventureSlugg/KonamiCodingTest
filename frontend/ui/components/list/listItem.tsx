@@ -37,7 +37,10 @@ export default function ListItem(props: ListItemProps) {
 					{
 						!editing ?
 							<Text
-								style={styles.hugLeft}
+								style={{
+									...styles.hugLeft,
+									zIndex: -5
+								}}
 							>
 								{props.name}
 							</Text>
