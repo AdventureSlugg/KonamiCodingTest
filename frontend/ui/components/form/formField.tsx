@@ -4,6 +4,7 @@ import { PLACEHOLDER_COLOR } from "../../../styles/colors";
 import { useSizeScheme } from "../../../hooks/use-size-scheme";
 
 export type FormFieldType = {
+    name: string;
 	type: "text" | "password";
 	placeholder: string;
 	validator: (input: string) => boolean;
