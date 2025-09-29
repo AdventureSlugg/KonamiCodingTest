@@ -6,11 +6,6 @@ import FormField from "../components/form/formField";
 import Button from "../components/button/button";
 import { useFetchTasks } from "../../hooks/tasks/use-fetch-task";
 
-export type Task = {
-	name: string,
-	id: number
-}
-
 /**
  * The TodoList page component. Contains a list of todo items and allows users to add, edit, and delete items.
  * @author Zoe Bingham
@@ -39,7 +34,7 @@ export default function TodoList() {
 					items={tasks} 
 					style={{width:'85%'}} 
 					deleteItem={deleteTask}
-					editItem={task => updateTask(task.id, task.name)}
+					editItem={ (id, task) => updateTask(id, task) }
 				></List>
 
 				{/** Add item section */}
@@ -70,7 +65,6 @@ export default function TodoList() {
 						onSubmit={()=> { 
 							if (newTaskName.trim()) { 
 								createTask({ 
-									id: Date.now(), 
 									name: newTaskName.trim() 
 								}); 
 								setNewTaskName("");

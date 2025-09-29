@@ -10,7 +10,7 @@ type ListItemProps = {
 	id: number,
 	style?: StyleProp<ViewStyle>,
 	onDelete?: (id: number) => void,
-	onEdit?: (item: Nameable) => void
+	onEdit?: (id: number, item: Nameable) => void
 }
 
 /**
@@ -49,10 +49,12 @@ export default function ListItem(props: ListItemProps) {
 								type={"text"} 
 								placeholder={props.name}
 								onFinish={() => {
-									if (props.onEdit) props.onEdit({
-										id: props.id,
-										name: newName
-									})
+									if (props.onEdit) props.onEdit(
+										props.id, 
+										{
+											name: newName
+										}
+									)
 								}}
 								onValueChange={setNewName}
 								style={{

@@ -1,42 +1,60 @@
 import { useCallback, useState } from "react";
-import { Task } from "../../ui/pages/todolist";
-
-const mockTasks: Array<Task> = [
-	{
-		name: "Add Validation",
-		id: 0,
-	},
-	{
-		name: "Submit Form",
-		id: 1,
-	},
-	{
-		name: "Check Endpoints",
-		id: 2,
-	},
-];
 
 /**
- * Custom hook that provides the task list and CRUD actions.
- * Previously you were calling hooks at module scope which is invalid —
- * hooks must be called inside React functions. This hook fixes that.
+ * A task is composed of a name and sub tasks.
  */
-export function useFetchTasks(initial: Array<Task> = mockTasks) {
-	const [tasks, setTasks] = useState<Array<Task>>(initial);
+export type Task = {
+	name: string,
+	subTasks?: Map<number, Task>
+}
+
+const mockTasks = new Map<number, Task>();
+
+// Initialize the mockData
+mockTasks.set(0, {
+	name: "Add Validation",
+});
+mockTasks.set(1, {
+	name: "Submit Form"
+});
+mockTasks.set(2, {
+	name: "Check Endpoints"
+});
+
+
+/**
+ * A hook to perform CRUD operations on Tasks. Returns the tasks, and modifiers.
+ */
+export function useFetchTasks(initial: Map<number, Task> = mockTasks) {
+	const [tasks, setTasks] = useState<Map<number, Task>>(new Map(initial));
+	const [count, setCount] = useState<number>(initial.size);
+	
 
 	const createTask = useCallback((task: Task) => {
-		setTasks((prev) => [...prev, task]);
-	}, []);
+		setTasks(prevTasks => {
+			const newTasks = new Map(prevTasks);
+			const newCount = count + 1;
+			newTasks.set(newCount, task);
+			setCount(newCount);
+			return newTasks;
+		});
+	}, [count]);
 
 	const deleteTask = useCallback((id: number) => {
-		setTasks((prev) => prev.filter((t) => t.id !== id));
+		setTasks(prevTasks => {
+			const newTasks = new Map(prevTasks);
+			newTasks.delete(id);
+			return newTasks;
+		})
 	}, []);
 
-	const updateTask = useCallback((id: number, newValue: string) => {
-
-		setTasks((prev) =>
-			prev.map((t) => (t.id === id ? { ...t, name: newValue } : t))
-		);
+	const updateTask = useCallback((id: number, newValue: Task) => {
+		setTasks(prevTasks => {
+			const newTasks = new Map(prevTasks);
+			newTasks.set(id, newValue);
+			return newTasks;
+		})
+		
 	}, []);
 
 	return { tasks, createTask, deleteTask, updateTask };
