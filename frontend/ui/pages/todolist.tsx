@@ -1,9 +1,8 @@
-import React, { useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React from "react";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import List from "../components/list/list";
 import { useSizeScheme } from "../../hooks/use-size-scheme";
-import FormField from "../components/form/formField";
-import Button from "../components/button/button";
+
 import { useFetchTasks } from "../../hooks/tasks/use-fetch-task";
 
 /**
@@ -13,11 +12,10 @@ import { useFetchTasks } from "../../hooks/tasks/use-fetch-task";
 export default function TodoList() {
 	const sizes = useSizeScheme();
 	const { tasks, createTask, deleteTask, updateTask } = useFetchTasks();
-	const [newTaskName, setNewTaskName] = useState<string>("");
 	
 	return (
 		<View style={{flex: 1}}>
-			<View style={styles.container}>
+			<ScrollView contentContainerStyle={styles.container}>
 				{/** Title Section  */}
 				<Text
 					style={{
@@ -35,6 +33,8 @@ export default function TodoList() {
 					style={{width:'85%'}} 
 					deleteItem={deleteTask}
 					editItem={updateTask}
+					addItem={createTask}
+					depth={1}
 				></List>
 
 				{/** Add item section */}
@@ -45,34 +45,8 @@ export default function TodoList() {
 						paddingTop: 2 * sizes.padding
 					}}
 				>
-					<FormField 
-						style={{
-							marginLeft: sizes.padding,
-							marginRight: sizes.padding,
-							width: '75%'
-						}}
-						type={"text"} 
-						placeholder={"Add New Task"} 
-						validator={() => true} 
-						onValueChange={(input) => setNewTaskName(input)}
-						onInvalidInput={() => true}>
-					</FormField>
-					<Button 
-						style={{
-							width: '15%',
-						}}
-						name={"Add"} 
-						onSubmit={()=> { 
-							if (newTaskName.trim()) { 
-								createTask({ 
-									name: newTaskName.trim() 
-								}); 
-								setNewTaskName("");
-							}
-						}} >
-					</Button>
 				</View>
-			</View>
+			</ScrollView>
 			
 		</View>
 	)
@@ -80,10 +54,10 @@ export default function TodoList() {
 
 const styles = StyleSheet.create({
 	container: {
-		backgroundColor: '#fff',
 		alignItems: 'center',
 		width: '100%',
-		height: '100%',
+		flexGrow: 1,
+		height: 1, // Percent height doesn't allow scroll.
 	},
 	title: {
 		marginTop: 50,

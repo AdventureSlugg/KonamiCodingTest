@@ -14,9 +14,12 @@ export type ListItem = {
 type ListItemProps = {
 	id: number,
 	item: ListItem,
+	path?: number[],
 	style?: StyleProp<ViewStyle>,
-	onDelete: (id: number, parentID?: number) => void,
-	onEdit: (id: number, item: Nameable, parentID?: number) => void
+	depth: number,
+	onDelete: (path: number[]) => void,
+	onEdit: (path: number[], item: Nameable) => void,
+	addItem: (item: Nameable, parentPath?: number[]) => void,
 }
 
 /**
@@ -56,7 +59,7 @@ export default function ListItem(props: ListItemProps) {
 								placeholder={props.item.name}
 								onFinish={() => {
 									if (props.onEdit) props.onEdit(
-										props.id, 
+										(props.path ?? [props.id]),
 										{
 											name: newName
 										}
@@ -76,7 +79,7 @@ export default function ListItem(props: ListItemProps) {
 							styles.hugRight
 						}
 						onPress={() => {
-							if (props.onDelete) props.onDelete(props.id)
+							if (props.onDelete) props.onDelete(props.path ?? [props.id])
 						}}
 					>
 						<Text style={styles.delete}>DELETE</Text>
@@ -97,17 +100,17 @@ export default function ListItem(props: ListItemProps) {
 			}
 
 			{
-				props.item.subItems ?
-					<List 
-						items={props.item.subItems}
-						deleteItem={(id) => props.onDelete(props.id, id)} 
-						editItem={(id, item) => props.onEdit(props.id, item, id)}
-						style={{
-							paddingLeft: '5%'
-						}}>
-					</List>
-					:
-					<></>
+				<List 
+					items={props.item.subItems ? props.item.subItems : new Map()}
+					path={props.path ?? [props.id]}
+					deleteItem={props.onDelete}
+					editItem={props.onEdit}
+					addItem={props.addItem}
+					depth={props.depth + 1}
+					style={{
+						paddingLeft: `${5 * (props.depth)}%`
+					}}>
+				</List>
 			}
 			
 		</View>
