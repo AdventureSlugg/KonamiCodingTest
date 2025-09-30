@@ -34,7 +34,7 @@ export default function TodoList() {
 					items={tasks} 
 					style={{width:'85%'}} 
 					deleteItem={deleteTask}
-					editItem={ (id, task) => updateTask(id, task) }
+					editItem={updateTask}
 				></List>
 
 				{/** Add item section */}

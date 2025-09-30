@@ -3,14 +3,20 @@ import { View, Text, TouchableOpacity, StyleSheet, StyleProp, ViewStyle } from "
 import { PLACEHOLDER_COLOR, WARNING_COLOR } from "../../../styles/colors";
 import { useSizeScheme } from "../../../hooks/use-size-scheme";
 import FormField from "../form/formField";
-import { Nameable } from "./list";
+import List, { Nameable } from "./list";
+
+export type ListItem = {
+	name: string,
+	parentID?: number,
+	subItems?: Map<number, ListItem>
+}
 
 type ListItemProps = {
-	name: string,
 	id: number,
+	item: ListItem,
 	style?: StyleProp<ViewStyle>,
-	onDelete?: (id: number) => void,
-	onEdit?: (id: number, item: Nameable) => void
+	onDelete: (id: number, parentID?: number) => void,
+	onEdit: (id: number, item: Nameable, parentID?: number) => void
 }
 
 /**
@@ -21,12 +27,12 @@ type ListItemProps = {
 export default function ListItem(props: ListItemProps) {
 	const size = useSizeScheme();
 	const [editing, setEditing] = useState(false);
-	const [newName, setNewName] = useState(props.name);
+	const [newName, setNewName] = useState(props.item.name);
 
 	return (
 		<View style={props.style}>
 			{
-				props.name &&
+				props.item.name &&
 				<View
 					style={{
 						...styles.listItem,
@@ -42,12 +48,12 @@ export default function ListItem(props: ListItemProps) {
 									zIndex: -5
 								}}
 							>
-								{props.name}
+								{props.item.name}
 							</Text>
 						:
 							<FormField 
 								type={"text"} 
-								placeholder={props.name}
+								placeholder={props.item.name}
 								onFinish={() => {
 									if (props.onEdit) props.onEdit(
 										props.id, 
@@ -89,6 +95,21 @@ export default function ListItem(props: ListItemProps) {
 					</TouchableOpacity>
 				</View>
 			}
+
+			{
+				props.item.subItems ?
+					<List 
+						items={props.item.subItems}
+						deleteItem={(id) => props.onDelete(props.id, id)} 
+						editItem={(id, item) => props.onEdit(props.id, item, id)}
+						style={{
+							paddingLeft: '5%'
+						}}>
+					</List>
+					:
+					<></>
+			}
+			
 		</View>
 	)
 }

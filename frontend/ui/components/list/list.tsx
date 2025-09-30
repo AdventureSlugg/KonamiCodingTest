@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { View, ViewStyle, StyleProp } from "react-native";
 import ListItem from "./listItem";
 import { PLACEHOLDER_COLOR } from "../../../styles/colors";
@@ -10,8 +10,8 @@ export type Nameable = {
 type ListProps<T extends Nameable> = {
 	items: Map<number, T>,
 	style?: StyleProp<ViewStyle>,
-	deleteItem: (id: number) => void,
-	editItem?: (id: number, item: Nameable) => void
+	deleteItem: (id: number, parentId?: number) => void,
+	editItem: (id: number, item: Nameable, parentId?: number) => void
 }
 
 /**
@@ -36,11 +36,11 @@ export default function List<T extends Nameable>(props: ListProps<T>) {
 						borderColor: PLACEHOLDER_COLOR,
 						borderBottomWidth: id === items.size - 1 ? 1 : 0,
 					}}
-					key={id} 
-					name={item.name}
 					id={id}
-					onDelete={() => props.deleteItem(id)}
-					onEdit={props.editItem && props.editItem}>
+					key={id} 
+					item={item}
+					onDelete={props.deleteItem}
+					onEdit={props.editItem}>
 				</ListItem>
 			)
 		})

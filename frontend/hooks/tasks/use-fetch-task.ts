@@ -1,24 +1,28 @@
 import { useCallback, useState } from "react";
+import { ListItem } from "../../ui/components/list/listItem";
 
 /**
  * A task is composed of a name and sub tasks.
  */
-export type Task = {
-	name: string,
-	subTasks?: Map<number, Task>
-}
+export type Task = ListItem;
 
 const mockTasks = new Map<number, Task>();
+const subTasks = new Map<number, Task>();
+subTasks.set(3, {
+	name: "validate",
+	parentID: 0
+})
 
 // Initialize the mockData
 mockTasks.set(0, {
 	name: "Add Validation",
+	subItems: subTasks
 });
 mockTasks.set(1, {
 	name: "Submit Form"
 });
 mockTasks.set(2, {
-	name: "Check Endpoints"
+	name: "Check Endpoints",
 });
 
 
@@ -40,18 +44,31 @@ export function useFetchTasks(initial: Map<number, Task> = mockTasks) {
 		});
 	}, [count]);
 
-	const deleteTask = useCallback((id: number) => {
+	const deleteTask = useCallback((id: number, childID?: number) => {
 		setTasks(prevTasks => {
 			const newTasks = new Map(prevTasks);
-			newTasks.delete(id);
+
+			// If the item is a child item, delete it from the subtasks
+			if (childID) {
+				newTasks.get(id)?.subItems?.delete(childID);
+			} else {
+				newTasks.delete(id);
+			}
+			
 			return newTasks;
 		})
 	}, []);
 
-	const updateTask = useCallback((id: number, newValue: Task) => {
+	const updateTask = useCallback((id: number, newValue: Task, childID?: number) => {
 		setTasks(prevTasks => {
 			const newTasks = new Map(prevTasks);
-			newTasks.set(id, newValue);
+			
+			// If the item is a child item, edit it from the subtasks
+			if (childID) {
+				newTasks.get(id)?.subItems?.set(childID, newValue)
+			} else {
+				newTasks.set(id, newValue);
+			}
 			return newTasks;
 		})
 		
